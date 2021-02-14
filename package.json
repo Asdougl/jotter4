@@ -1,0 +1,28 @@
+{
+  "name": "jotter4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^8.2.0",
+    "electron-builder": "^22.6.0"
+  },
+  "dependencies": {
+    "moment": "^2.24.0",
+    "uuid": "^7.0.3"
+  },
+  "build":{
+    "appId":"com.asdougl.jotter4",
+    "win":{
+      "target":"nsis",
+      "icon":"build/icon.png"
+    }
+  }
+}

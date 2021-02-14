@@ -1,0 +1,699 @@
+@font-face {
+  font-family: 'Fira Code';
+  src: url("../assets/fonts/FiraCode-VF.ttf") format("truetype");
+  font-weight: 1 999;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-weight: 200;
+  font-family: 'Fira Code';
+  background: #1f2430;
+  color: white;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/*  Global Styles
+--------------------------- */
+main#app {
+  height: calc(100vh - 30px);
+  overflow-y: hidden;
+}
+
+button {
+  background: rgba(255, 255, 255, 0.1);
+  font: inherit;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+button:focus {
+  outline: none;
+}
+
+button.are-you-sure {
+  position: relative;
+}
+
+button.are-you-sure::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: rgba(106, 90, 205, 0.6);
+  -webkit-transition: width 3s linear;
+  transition: width 3s linear;
+  opacity: 0;
+}
+
+button.are-you-sure.making-sure::after {
+  width: 100%;
+  opacity: 1;
+}
+
+button.are-you-sure.error {
+  background: rgba(255, 0, 0, 0.4);
+}
+
+/*  Editor Styles
+--------------------------- */
+#editor {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr;
+      grid-template-rows: auto 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+#editor ul.editor-tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(100px, 1fr))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  display: none;
+}
+
+#editor ul.editor-tabs.active {
+  display: -ms-grid;
+  display: grid;
+}
+
+#editor ul.editor-tabs li {
+  padding: 0.2rem 0.4rem;
+  text-align: center;
+  margin-right: 0.1rem;
+  opacity: 0.6;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  position: relative;
+  font-size: 0.8rem;
+}
+
+#editor ul.editor-tabs li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#editor ul.editor-tabs li.active {
+  opacity: 1;
+  background: none;
+}
+
+#editor ul.editor-tabs li.active .tab-close {
+  display: inline;
+}
+
+#editor ul.editor-tabs li .tab-close {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  display: none;
+}
+
+#editor ul.editor-tabs li.unsaved {
+  font-style: italic;
+}
+
+#editor .editors {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#editor .editors .editor {
+  height: 100%;
+  position: relative;
+  max-width: 1080px;
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr;
+      grid-template-rows: auto 1fr;
+}
+
+#editor .editors .editor .title-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#editor .editors .editor .title-container .save {
+  display: none;
+}
+
+#editor .editors .editor .title-container .save.unsaved {
+  display: block;
+}
+
+#editor .editors .editor .title-container .bookmark {
+  background: none;
+  opacity: 0.2;
+}
+
+#editor .editors .editor .title-container .bookmark:hover {
+  opacity: 0.8;
+}
+
+#editor .editors .editor .title-container .bookmark.hidden {
+  display: none;
+}
+
+#editor .editors .editor .title-container .bookmark.active {
+  opacity: 1;
+  color: slateblue;
+}
+
+#editor .editors .editor .title-container input.title {
+  font-size: 1.4rem;
+  font-family: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0.2em;
+  width: 100%;
+}
+
+#editor .editors .editor .title-container input.title:focus {
+  outline: none;
+}
+
+#editor .editors .editor .title-container .meta.hidden {
+  display: none;
+}
+
+#editor .editors .editor .body-container {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#editor .editors .editor .body-container.hidden {
+  display: none;
+}
+
+#editor .editors .editor .body-container .editor-body {
+  padding: 0.1rem 0.2rem;
+  padding-bottom: 40vh;
+}
+
+#editor .editors .editor .body-container .editor-body:focus {
+  outline: none;
+}
+
+/*  Explorer Styles
+--------------------------- */
+#explorer {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto auto 1fr;
+      grid-template-rows: auto auto 1fr;
+  height: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+#explorer .current-path {
+  margin: 0.4em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+#explorer .current-path .path-items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#explorer .current-path .path-items .item {
+  margin: 0.2em 0.4em;
+  padding: 0.2em 0.6em;
+  position: relative;
+  cursor: pointer;
+}
+
+#explorer .current-path .path-items .item:after {
+  content: '/';
+  position: absolute;
+  right: -0.65em;
+  opacity: 0.4;
+}
+
+#explorer .current-path .path-items .item:last-child:after {
+  content: '';
+}
+
+#explorer .current-path .path-items .item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#explorer .current-path .path-edit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+#explorer .current-path .path-edit:hover {
+  opacity: 0.8;
+}
+
+#explorer .current-path .path-config {
+  display: none;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+}
+
+#explorer .current-path .path-config.show {
+  display: -ms-grid;
+  display: grid;
+}
+
+#explorer .current-path .path-config .name {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr auto;
+      grid-template-columns: 1fr auto;
+}
+
+#explorer .current-path .path-config .name input {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  padding: 0.2em 0.4em;
+  border-bottom: 1px solid slateblue;
+}
+
+#explorer .current-path .path-config .name input::-webkit-input-placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .current-path .path-config .name input:-ms-input-placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .current-path .path-config .name input::-ms-input-placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .current-path .path-config .name input::placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .current-path .path-config .name input:focus {
+  outline: none;
+}
+
+#explorer .actions .new-actions {
+  width: calc(100% - 0.8rem);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  gap: 0.2rem;
+  margin: 0.4em;
+}
+
+#explorer .actions .new-actions button {
+  background: rgba(255, 255, 255, 0.1);
+  font: inherit;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
+#explorer .actions .new-actions button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#explorer .actions .new-folder-field {
+  margin: 0em 0.4em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr auto;
+      grid-template-columns: 1fr auto;
+  gap: 0.2rem;
+  display: none;
+}
+
+#explorer .actions .new-folder-field.active {
+  display: -ms-grid;
+  display: grid;
+}
+
+#explorer .actions .new-folder-field input {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  font: inherit;
+  color: inherit;
+  padding: 0.2em 0.4em;
+}
+
+#explorer .actions .new-folder-field input::-webkit-input-placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .actions .new-folder-field input:-ms-input-placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .actions .new-folder-field input::-ms-input-placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .actions .new-folder-field input::placeholder {
+  opacity: 0.4;
+  color: inherit;
+}
+
+#explorer .actions .new-folder-field input:focus {
+  outline: none;
+}
+
+#explorer .folders-files {
+  overflow-y: auto;
+}
+
+#explorer .folders-files ul.folders, #explorer .folders-files ul.files {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding: 0.2em 0.8em;
+  margin-bottom: 0.4em;
+}
+
+#explorer .folders-files ul.folders li, #explorer .folders-files ul.files li {
+  padding: 0.2em 0.2em;
+  cursor: pointer;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto 1fr auto;
+      grid-template-columns: auto 1fr auto;
+  gap: 0.8rem;
+}
+
+#explorer .folders-files ul.folders li:hover, #explorer .folders-files ul.files li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#explorer .folders-files ul.folders li > i, #explorer .folders-files ul.files li > i {
+  opacity: 0.4;
+}
+
+#explorer .folders-files ul.folders li > i.active, #explorer .folders-files ul.files li > i.active {
+  opacity: 0.8;
+  color: slateblue;
+}
+
+#explorer .folders-files ul.folders li > i:hover, #explorer .folders-files ul.files li > i:hover {
+  opacity: 0.8;
+}
+
+#explorer .folders-files ul.folders li .actions > i, #explorer .folders-files ul.files li .actions > i {
+  opacity: 0.4;
+}
+
+#explorer .folders-files ul.folders li .actions > i:hover, #explorer .folders-files ul.files li .actions > i:hover {
+  opacity: 0.8;
+}
+
+/*  Settings Styles
+--------------------------- */
+#meta {
+  padding: 0.4rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto auto 1fr;
+      grid-template-rows: auto auto 1fr;
+  height: 100%;
+}
+
+#meta .title {
+  font-size: 1.4rem;
+  font-style: italic;
+  opacity: 0.8;
+  padding: 0.4rem 0.6rem;
+}
+
+#meta ul.meta-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.2rem;
+}
+
+#meta ul.meta-nav li {
+  width: 100%;
+  text-align: center;
+  padding: 0.2rem 0rem;
+  margin: 0rem 0.2rem;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  border-style: inset;
+  border: none;
+}
+
+#meta ul.meta-nav li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#meta ul.meta-nav li.active {
+  border-bottom: 0.1rem solid slateblue;
+}
+
+#meta ul.meta-section {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;
+  padding: 0.4rem;
+  overflow-y: auto;
+}
+
+#meta ul.meta-section.show {
+  display: block;
+}
+
+#meta ul.meta-section li {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  margin-bottom: 0.4rem;
+}
+
+#meta ul.meta-section li.action {
+  cursor: pointer;
+}
+
+#meta ul.meta-section li.action:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#meta ul.meta-section li > * {
+  padding: 0.2rem;
+}
+
+/*  Settings Styles
+--------------------------- */
+/*  Controls Styles
+--------------------------- */
+#controls {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 2rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+}
+
+#controls button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+#controls button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#controls button.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#controls button:focus {
+  outline: none;
+}
+
+/*  Header Styles
+--------------------------- */
+#title-bar {
+  width: 100vw;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 2.5em 1fr auto;
+      grid-template-columns: 2.5em 1fr auto;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.9rem;
+  -webkit-app-region: drag;
+}
+
+#title-bar #title-bar_button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0px 5px;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+#title-bar #title-bar_button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#title-bar #title-bar_button:empty {
+  cursor: default;
+}
+
+#title-bar #title-bar_button:empty:hover {
+  background: none;
+}
+
+#title-bar #title-bar_title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0px 5px;
+  opacity: 0.6;
+}
+
+#title-bar #title-bar_actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#title-bar #title-bar_actions button {
+  -webkit-app-region: no-drag;
+  font-family: inherit;
+  height: 29px;
+  width: 45px;
+  background: none;
+  border: none;
+  color: inherit;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: default;
+}
+
+#title-bar #title-bar_actions button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#title-bar #title-bar_actions button:focus {
+  outline: none;
+}
+
+#title-bar #title-bar_actions button#window-close:hover {
+  background: #e81123;
+}
+
+#title-bar #title-bar_actions button svg path,
+#title-bar #title-bar_actions button svg rect,
+#title-bar #title-bar_actions button svg polygon {
+  fill: #fff;
+}
+
+#title-bar #title-bar_actions button svg {
+  width: 10px;
+  height: 10px;
+}
+/*# sourceMappingURL=style.css.map */

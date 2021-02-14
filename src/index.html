@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <title>J4 Editor</title>
+</head>
+<body>
+    
+<!-- Jotter 4 Text Editor -->
+
+<header id="title-bar">
+    <section id="title-bar_button">
+        *
+    </section>
+    <section id="title-bar_title">
+        J4 Editor
+    </section>
+    <section id="title-bar_actions">
+        <button id="window-minimise">
+            <svg x="0px" y="0px" viewBox="0 0 10.2 1"><rect x="0" y="50%" width="10.2" height="1" /></svg>
+        </button>
+        <button id="window-maximise">
+            <svg viewBox="0 0 10 10"><path d="M0,0v10h10V0H0z M9,9H1V1h8V9z" /></svg>
+        </button>
+        <button id="window-close">
+            <svg viewBox="0 0 10 10"><polygon points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1" /></svg>
+        </button>
+    </section>
+</header>
+
+<main id="app">
+    
+    <!-- == EDITOR == -->
+    <section section="editor" id="editor" class="tab">
+        <ul class="editor-tabs">
+            <!-- Editor Tab Names Here -->
+        </ul>
+        <div class="editors">
+            <!-- Editors -->
+        </div>
+    </section>
+    <!-- == / EDITOR == -->
+
+
+
+    <!-- == EXPLORER == -->
+    <section section="explorer" id="explorer" class="tab">
+        <div class="current-path">
+            <!-- Path of Current Directory -->
+        </div>
+        <div class="actions">
+            <div class="new-actions">
+                <button class="new-file">
+                    New File
+                </button>
+                <button class="new-folder">
+                    New Folder
+                </button>
+            </div>
+            <div class="new-folder-field">
+                <input type="text" placeholder="Folder Name...">
+                <button>Save</button>
+            </div>
+        </div>
+        <div class="folders-files">
+            <ul class="folders">
+                <!-- Folders -->
+            </ul>
+            <ul class="files">
+                <!-- Files -->
+            </ul>
+        </div>
+    </section>
+    <!-- == / EXPLORER == -->
+
+
+
+    <!-- == META == -->
+    <section section="meta" id="meta" class="tab">
+        <div class="title"></div>
+        <ul class="meta-nav">
+            <li to="info">Info</li>
+            <li to="icon">Icon</li>
+            <li to="actions">Actions</li>
+        </ul>
+        <ul class="meta-section info"></ul>
+        <ul class="meta-section icon"></ul>
+        <ul class="meta-section actions"></ul>
+    </section>
+    <!-- == / SETTINGS == -->
+
+
+
+    <!-- == SETTINGS == -->
+    <section section="settings" id="settings" class="tab">
+        <div class="title">J4 Settings</div>
+        <ul class="settings-section">
+            <li>
+                <div>Style</div>
+                <div>
+                    <button>Midnight</button>
+                    <button>Dark</button>
+                    <button>Light</button>
+                    <button>Vibrant</button>
+                </div>
+            </li>
+            <li>
+                <div>Accent</div>
+                <div>
+                    <button>Blue</button>
+                    <button>Green</button>
+                    <button>Orange</button>
+                    <button>Slateblue</button>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <!-- == / SETTINGS == -->
+
+</main>
+
+<script type="module" src="renderer.js"></script>
+
+</body>
+</html>
